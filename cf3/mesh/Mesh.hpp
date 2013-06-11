@@ -46,7 +46,7 @@ public: // functions
   void generate_signals();
 
   /// Get the class name
-  static std::string type_name () { return "Mesh"; }
+  static std::string type_name () { return "cf3::mesh::Mesh"; }
 
   // functions specific to the Mesh component
 
@@ -79,7 +79,7 @@ public: // functions
   /// @return metadata component
   const MeshMetadata& metadata() const { return *m_metadata; }
 
-  /// @signal WriteMesh
+  /// @signal 
   /// @brief Write mesh, guessing automatically the format
   /// @pretty Write Mesh
   /// @param file where to output the mesh @default @code URI( self->name() + ".msh" ) @endcode
