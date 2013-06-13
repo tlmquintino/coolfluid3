@@ -202,7 +202,7 @@ class Signal(object):
 
 class CppClass(object):
 
-    def __init__(self,exp,txt):
+    def __init__(self,exp,txt,js):
             
         """ NOTE: arguments have a specific order, and must match same order in doxygen part """
 
@@ -219,7 +219,6 @@ class CppClass(object):
                 try:
                     exp = doxcmd.parseString( line )
                     if( exp[0] == 'signal' ):
-                        # print exp
                         signals.append( Signal(exp,txt) )
                         
                 except ParseException, pe:
@@ -232,15 +231,14 @@ class CppClass(object):
             except StopIteration:
                 break    
                 
-        # detect class type
-
-        js = { self.type_name : {
+        classjs = { self.type_name : {
            	     "signals" : [ signal.json for signal in signals ]
                }
              }
-        # print js
-        print json.dumps( js, sort_keys=True,indent=4, separators=(',', ': '))
-
+        
+        # print classjs
+             
+        js.update(classjs)
 
 #------------------------------------------------------------------------------
 
@@ -278,23 +276,25 @@ def main(argv):
     if ofile == '':
         ofile = os.path.splitext(ifile)[0] + ".s.cpp"
 
-    # print '{ifile} -> {ofile}'.format( ifile=ifile, ofile=ofile )
+    print '{ifile} -> {ofile}'.format( ifile=ifile, ofile=ofile )
             
     header = file(ifile)
     
-    classes = []
+    js = {}
     
     while True:
         try:
             try:
                 exp = cpp_class.parseString( header.next() )
                 if( exp[0] == 'class' ):
-                    classes.append( CppClass( exp, header ) )                            
+                    CppClass( exp, header, js )
             except ParseException, pe:
                 pass
         except StopIteration:
             break    
-        
+      
+    with open(ofile, 'w') as out:
+        json.dump(js, out, sort_keys=True,indent=4, separators=(',', ': '))
         
             
 #------------------------------------------------------------------------------    

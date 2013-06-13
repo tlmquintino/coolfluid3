@@ -93,7 +93,7 @@ class GenerateSignals(object):
             for arg in sig['args']:
                 tp=arg['type']
                 cxxtp=totypes[tp]
-                out.write('  {type} {name};\n'.format( type=cxxtp, name=arg['name'] ) )
+                out.write('  {type} {name};\n'.format( type=cxxtp, name=arg['name'] ) ) # declared the variable
                 if 'value' in arg:
                     if not tp.startswith('array'):
                         out.write('  {name} = {value};\n'.format( name=arg['name'], value=quote_value(tp,arg['value']) ) )
