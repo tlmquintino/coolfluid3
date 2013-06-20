@@ -46,7 +46,7 @@ public: // functions
   void generate_signals();
 
   /// Get the class name
-  static std::string type_name () { return "cf3::mesh::Mesh"; }
+  static std::string type_name () { return "cf3.mesh.Mesh"; }
 
   // functions specific to the Mesh component
 

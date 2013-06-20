@@ -14,10 +14,12 @@
 #include <cxxabi.h>
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
 
 namespace cf3 {
 namespace common {
+
+//-----------------------------------------------------------------------------
 
 std::string demangle(const char* type)
 {
@@ -42,7 +44,7 @@ std::string demangle(const char* type)
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
 
 TypeInfo::TypeInfo()
 {
@@ -69,6 +71,8 @@ TypeInfo& TypeInfo::instance()
   return tregister;
 }
 
+//-----------------------------------------------------------------------------
+
 std::string class_name_from_typeinfo (const std::type_info & info)
 {
   TypeInfo& ti = TypeInfo::instance();
@@ -79,6 +83,18 @@ std::string class_name_from_typeinfo (const std::type_info & info)
 
   return it->second;
 }
+
+//-----------------------------------------------------------------------------
+
+std::string append_library_namespace( const std::string& lib, const std::string& type)
+{
+    if( type.find('.') != std::string::npos )
+        return type;
+    else 
+        return lib + "." + type;
+}
+
+//-----------------------------------------------------------------------------
 
 } // common
 } // cf3
