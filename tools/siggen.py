@@ -100,6 +100,8 @@ class GenerateSignals(object):
                     else:
                         subtp=tp[6:-1]
                         out.write('  {name} += {value};\n'.format( name=arg['name'], value=', '.join( [ quote_value(subtp,val) for val in arg['value'] ] ) ) )
+                if 'code' in arg:
+                        out.write('  {code}\n'.format( code=arg['code'] ) )
                 desc=arg.get('desc', "" );
                 out.write('  options.add("{name}" , {name} ).description("{desc}");\n'.format( name=arg['name'],desc=desc ) )
                 out.write("\n" )

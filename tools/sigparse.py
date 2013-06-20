@@ -86,8 +86,11 @@ signal = dox + at + Literal("signal") + Optional( identifier )
 
 code    = at + Literal("code")    # ; code.suppress()
 endcode = at + Literal("endcode") # ; endcode.suppress()
-codeval = (code + SkipTo(endcode).setResultsName('defval') + endcode)
-defval  = (at + Literal("default") + codeval )
+# codeval = code + SkipTo(endcode).setResultsName('codeval') + endcode
+
+codeval = originalTextFor(nestedExpr('@code','@endcode'))('codeval')
+
+defval  = at + Literal("default") + codeval
 
 param  = dox + at + Literal("param") + identifier + Optional( description ) + Optional( defval )
 
@@ -175,7 +178,9 @@ class Signal(object):
         arg={}
         arg['name']  = str(tokens[1])
         arg['desc']  = ' '.join(tokens.description)
-        arg['value'] = str(tokens.defval)
+        codeval = str(tokens.codeval)[6:-9]
+        if( codeval ):
+            arg['code'] = codeval
     
         self.json['args'].append(arg)
     
