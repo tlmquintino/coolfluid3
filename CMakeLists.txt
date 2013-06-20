@@ -144,18 +144,12 @@ coolfluid_log(" plugin configuration ")
 add_subdirectory( plugins )
 
 # find plugins
-# developer may set several base directories that host multiple plugins each
 
-macro( subdirlist result curdir )
-  file(GLOB children RELATIVE ${curdir} ${curdir}/*)
-  set(dirlist "")
-  foreach(child ${children})
-    if(IS_DIRECTORY ${curdir}/${child})
-      set(dirlist ${dirlist} ${child})
-    endif()
-  endforeach()
-  set(${result} ${dirlist})
-endmacro()
+# directories with plugins
+
+# developer may set several base directories that host multiple plugins each
+# it will only add directories that define a coolfluid plugin 
+# ( have coolfluid_define_plugin in their CMakeList.txt )
 
 foreach( EXDIR ${CF3_PLUGIN_DIRS} )
 
@@ -163,26 +157,26 @@ foreach( EXDIR ${CF3_PLUGIN_DIRS} )
   coolfluid_log_file( "PLUGINS DIR [${EXDIR}]")
   coolfluid_log_file( "---------------------------------------------------------" )
 
-  subdirlist(SUBDIRS ${EXDIR})
+  coolfluid3_list_subdirs( SUBDIRS ${EXDIR} )
 
   foreach( subdir_name ${SUBDIRS} )
+
     set( subdir "${EXDIR}/${subdir_name}" )
-    file( GLOB FOUND_PLUGIN_DIR "${subdir}/CMakeLists.txt" )
-    if( FOUND_PLUGIN_DIR )
-      get_filename_component( plugin_name ${subdir} NAME )
-      add_subdirectory( ${subdir} plugins/${plugin_name} )
-    else()
-      subdirlist( SUBSUBDIRS ${subdir} )
-      foreach( subsubdir_name ${SUBSUBDIRS} )
-        set( subsubdir "${subdir}/${subsubdir_name}" )
-        file( GLOB FOUND_PLUGIN_DIR "${subsubdir}/CMakeLists.txt" )
-        if( FOUND_PLUGIN_DIR )
-          get_filename_component( plugin_name ${subsubdir} NAME )
-          add_subdirectory( ${subsubdir} plugins/${plugin_name} )
-        endif()
-      endforeach()
-    endif()
+
+    coolfluid3_add_plugin( ${subdir} )
+
   endforeach()
+
+endforeach()
+
+# isolated plugins
+
+foreach( EXDIR ${CF3_PLUGINS} )
+
+    coolfluid_log_file( "PLUGIN DIR [${EXDIR}]")
+
+    coolfluid3_add_plugin( ${EXDIR} )
+
 endforeach()
 
 coolfluid_log("")
