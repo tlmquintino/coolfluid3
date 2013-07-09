@@ -93,13 +93,15 @@ class GenerateSignals(object):
             for arg in sig['args']:
                 tp=arg['type']
                 cxxtp=totypes[tp]
-                out.write('  {type} {name};\n'.format( type=cxxtp, name=arg['name'] ) )
+                out.write('  {type} {name};\n'.format( type=cxxtp, name=arg['name'] ) ) # declared the variable
                 if 'value' in arg:
                     if not tp.startswith('array'):
                         out.write('  {name} = {value};\n'.format( name=arg['name'], value=quote_value(tp,arg['value']) ) )
                     else:
                         subtp=tp[6:-1]
                         out.write('  {name} += {value};\n'.format( name=arg['name'], value=', '.join( [ quote_value(subtp,val) for val in arg['value'] ] ) ) )
+                if 'code' in arg:
+                        out.write('  {code}\n'.format( code=arg['code'] ) )
                 desc=arg.get('desc', "" );
                 out.write('  options.add("{name}" , {name} ).description("{desc}");\n'.format( name=arg['name'],desc=desc ) )
                 out.write("\n" )

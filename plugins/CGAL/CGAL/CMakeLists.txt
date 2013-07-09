@@ -1,28 +1,24 @@
-list( APPEND coolfluid_cgal_files
-    LibCGAL.cpp
-    LibCGAL.hpp
-    ImplicitFunctionMesh.cpp
-    ImplicitFunctionMesh.hpp
-)
+coolfluid3_add_library( TARGET coolfluid_cgal
+            SOURCES
+              LibCGAL.cpp
+              LibCGAL.hpp
+              ImplicitFunctionMesh.cpp
+              ImplicitFunctionMesh.hpp
+              Tetrahedralize.hpp
+              Tetrahedralize.cpp
+            LIBS
+              coolfluid_mesh_lagrangep1
+              ${CGAL_LIBRARY}
+              ${Boost_THREAD_LIBRARY}
+              ${GMP_LIBRARIES}
+              ${MPFR_LIBRARIES}
+            INCLUDES
+              ${CGAL_INCLUDE_DIR}
+              ${GMP_INCLUDE_DIR}
+              ${MPFR_INCLUDE_DIR}
+            CONDITION  CGAL_FOUND )
 
-list( APPEND coolfluid_cgal_includedirs ${CGAL_INCLUDE_DIR} )
-list( APPEND coolfluid_cgal_libs        coolfluid_mesh_lagrangep1 ${CGAL_LIBRARY} ${Boost_THREAD_LIBRARY} )
-
-if(GMP_FOUND)
-  list( APPEND coolfluid_cgal_includedirs ${GMP_INCLUDE_DIR} )
-  list( APPEND coolfluid_cgal_libs        ${GMP_LIBRARIES})
-endif()
-
-if(MPFR_FOUND)
-  list( APPEND coolfluid_cgal_includedirs ${MPFR_INCLUDE_DIR} )
-  list( APPEND coolfluid_cgal_libs        ${MPFR_LIBRARIES})
-endif()
-
-coolfluid3_add_library( TARGET    coolfluid_cgal 
-					    SOURCES   ${coolfluid_cgal_files}
-						INCLUDES  ${coolfluid_cgal_includedirs}
-					    LIBS      ${coolfluid_cgal_libs}
-					    CONDITION CF3_HAVE_CGAL )
+set_target_properties(coolfluid_cgal PROPERTIES COMPILE_FLAGS -Wno-c++11-extensions)
 
 if( coolfluid_cgal_COMPILE_FLAGS )
   set_source_files_properties(ImplicitFunctionMesh.cpp PROPERTIES COMPILE_FLAGS ${coolfluid_cgal_COMPILE_FLAGS})

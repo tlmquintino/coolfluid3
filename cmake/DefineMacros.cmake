@@ -20,6 +20,8 @@ include(FeatureSummary)
 # include coolfluid macros
 ##############################################################################
 
+# TODO: change these macros to new format
+
 include(macros/CFInstallTargets)
 include(macros/CFInstallThirdPartyLibrary)
 include(macros/CFVariables)
@@ -35,4 +37,8 @@ include(macros/CFAddCompilationFlags)
 include(macros/CFDefinePlugin)
 include(macros/GetDate)
 
+# new format macros
+
 include(macros/coolfluid3_add_library)
+include(macros/coolfluid3_list_subdirs)
+include(macros/coolfluid3_add_plugin)

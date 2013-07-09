@@ -43,7 +43,7 @@ public: // functions
   virtual ~Mesh();
 
   /// Get the class name
-  static std::string type_name () { return "cf3::mesh::Mesh"; }
+  static std::string type_name () { return "cf3.mesh.Mesh"; }
 
   // functions specific to the Mesh component
 
@@ -79,7 +79,7 @@ public: // functions
   /// @signal 
   /// @brief Write mesh, guessing automatically the format
   /// @pretty Write Mesh
-  /// @param file where to output the mesh @default @code URI( self->name() + ".msh" ) @endcode
+  /// @param file where to output the mesh @default @code file = URI( self->name() + ".msh" ); @endcode
   /// @param fields fields to output
   void write_mesh( const common::URI& file, const std::vector<common::URI> fields = std::vector<common::URI>());
 

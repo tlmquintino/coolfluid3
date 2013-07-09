@@ -72,13 +72,21 @@ std::string class_name_from_typeinfo (const std::type_info & info);
 //   RegistTypeInfo( const std::string& name = TYPE::type_name() ) { TypeInfo::instance().regist<TYPE>(name); }
 // };
 
+////////////////////////////////////////////////////////////////////////////////
+/// \brief Appends the library namespace if needed
+/// \param lib library namespace
+/// \param type type name
+/// \return type with appended library namespaces
+///
+std::string append_library_namespace( const std::string& lib, const std::string& type);
+
 /// Register type info for a class that belongs to a coolfluid library, including the full namespace in the name
 /// Also registers type information for the handle and a vector of handles
 template< typename TYPE, typename LIB>
 struct RegistTypeInfo
 {
   /// @brief Registers this type into the TypeInfo registry
-  RegistTypeInfo( const std::string& name = LIB::library_namespace()+"."+TYPE::type_name() )
+  RegistTypeInfo( const std::string& name = append_library_namespace( LIB::library_namespace(), TYPE::type_name() ) )
   {
     const std::string handle_name = "handle[" + name + "]";
     const std::string array_name = "array[" + handle_name + "]";
