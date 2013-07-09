@@ -109,17 +109,21 @@ class GenerateSignals(object):
 
         # generate the signals in the component
 
-        out.write( 'void {type}::generate_signals()\n'.format( type=self.cls ) )
+        out.write("namespace cf3 {\n" )
+        out.write("namespace common {\n" )
+        out.write( 'template<> void regist_signals_into< {type} >( {type}* c )\n'.format( type=self.cls ) )
         out.write("{\n" )
         out.write("\n")
         for sig in self.decl['signals']: 
-                out.write( '    regist_signal("{name}")\n'.format( name=sig['name'] ) )
+                out.write( '    c->regist_signal("{name}")\n'.format( name=sig['name'] ) )
                 out.write( '        .description("{desc}")\n'.format( desc=sig.get('desc',"") ) )
                 out.write( '        .pretty_name("{pretty}")\n'.format( pretty=sig.get('pretty',"") ) )
-                out.write( '        .connect( boost::bind ( signal_{name}, this, _1 ) )\n'.format( name=sig['name'] ) )
-                out.write( '        .signature( boost::bind ( signature_{name}, this, _1 ) );\n'.format( name=sig['name'] ) )
+                out.write( '        .connect( boost::bind ( signal_{name}, c, _1 ) )\n'.format( name=sig['name'] ) )
+                out.write( '        .signature( boost::bind ( signature_{name}, c, _1 ) );\n'.format( name=sig['name'] ) )
                 out.write("\n")    
         out.write("}\n\n" )
+        out.write("}\n" )
+        out.write("}\n" )
 
         return out
 

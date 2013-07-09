@@ -43,6 +43,9 @@ namespace XML { class XmlNode; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+  template< typename T >
+  void regist_signals_into( T* comp );
+
   /// @brief Stand-alone function to allocate components of a given type
   ///
   /// A shared pointer must be returned, as this creates the very first

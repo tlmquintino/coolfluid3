@@ -42,9 +42,6 @@ public: // functions
   /// Virtual destructor
   virtual ~Mesh();
 
-  /// generates automatically some signals from C++ function signatures
-  void generate_signals();
-
   /// Get the class name
   static std::string type_name () { return "cf3::mesh::Mesh"; }
 

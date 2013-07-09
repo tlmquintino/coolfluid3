@@ -108,8 +108,6 @@ Mesh::Mesh ( const std::string& name  ) :
   coord_field->add_tag(mesh::Tags::coordinates());
   coord_field->create_descriptor("coord[vector]");
   m_geometry_fields->m_fields.push_back(coord_field);
-
-  regist_generated_signals(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
