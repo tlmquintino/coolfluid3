@@ -59,6 +59,7 @@ namespace XML { class XmlNode; }
   {
     typedef typename SelectComponentWrapper<T>::type AllocatedComponentT;
     typename boost::shared_ptr<T> comp ( new AllocatedComponentT(name), Deleter<AllocatedComponentT>() );
+    regist_signals_into( comp.get() );
     return comp ;
   }
 
